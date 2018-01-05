@@ -30,6 +30,7 @@ namespace WebLocacao.Infra.Context
         public ActionResult Index(int? pagina)
         {
          //   var cliente = db.Cliente.ToList();
+
             int paginaTamanho = 4;
             int paginaNumero = (pagina ?? 1);
             return View(_Cliente.ObterTodos().ToPagedList(paginaNumero, paginaTamanho));
