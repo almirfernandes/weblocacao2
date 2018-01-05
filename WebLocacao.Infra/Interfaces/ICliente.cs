@@ -11,13 +11,13 @@ namespace WebLocacao.Infra.Interfaces
     {
         IEnumerable<Cliente> ObterTodos();
 
-        void Incluir();
+        void Incluir(Cliente cliente);
 
-        void Detalhar();
+        Cliente Detalhar(int id);
 
-        void Excluir();
+        void Excluir(Cliente cliente);
 
-        void Editar();
+        void Editar(Cliente cliente);
         
     }
 }

@@ -3,6 +3,7 @@ using WebLocacao.Infra.Context;
 using WebLocacao.Infra.Interfaces;
 using WebLocacao.Dominio.Entities;
 using System.Linq;
+using System.Data.Entity;
 
 namespace WebLocacao.Infra.Repository
 {
@@ -17,24 +18,27 @@ namespace WebLocacao.Infra.Repository
             db = new LocacaoContext();
         }
 
-        public void Detalhar()
+        public Cliente Detalhar(int id)
         {
-            throw new System.NotImplementedException();
+            return db.Cliente.Find(id);
         }
 
-        public void Editar()
+        public void Editar(Cliente cliente)
         {
-            throw new System.NotImplementedException();
+            db.Entry(cliente).State = EntityState.Modified;
+            db.SaveChanges();
         }
 
-        public void Excluir()
+        public void Excluir(Cliente cliente)
         {
-            throw new System.NotImplementedException();
+            db.Cliente.Remove(cliente);
+            db.SaveChanges();
         }
 
-        public void Incluir()
+        public void Incluir(Cliente cliente)
         {
-            throw new System.NotImplementedException();
+            db.Cliente.Add(cliente);
+            db.SaveChanges();
         }
 
    

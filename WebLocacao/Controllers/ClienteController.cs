@@ -44,7 +44,7 @@ namespace WebLocacao.Infra.Context
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente cliente = db.Cliente.Find(id);
+            Cliente cliente = _Cliente.Detalhar(id);
             if (cliente == null)
             {
                 return HttpNotFound();
@@ -67,9 +67,8 @@ namespace WebLocacao.Infra.Context
         {
             if (ModelState.IsValid)
             {
-              //  cliente.ID = Guid.NewGuid();
-                db.Cliente.Add(cliente);
-                db.SaveChanges();
+                //  cliente.ID = Guid.NewGuid();
+                _Cliente.Incluir(cliente);
                 return RedirectToAction("Index");
             }
 
@@ -83,7 +82,7 @@ namespace WebLocacao.Infra.Context
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente cliente = db.Cliente.Find(id);
+            Cliente cliente = _Cliente.Detalhar(id);
             if (cliente == null)
             {
                 return HttpNotFound();
@@ -100,8 +99,7 @@ namespace WebLocacao.Infra.Context
         {
             if (ModelState.IsValid)
             {
-                db.Entry(cliente).State = EntityState.Modified;
-                db.SaveChanges();
+                _Cliente.Editar(cliente);
                 return RedirectToAction("Index");
             }
             return View(cliente);
@@ -114,7 +112,7 @@ namespace WebLocacao.Infra.Context
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Cliente cliente = db.Cliente.Find(id);
+            Cliente cliente = _Cliente.Detalhar(id);
             if (cliente == null)
             {
                 return HttpNotFound();
@@ -125,11 +123,10 @@ namespace WebLocacao.Infra.Context
         // POST: Cliente/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Cliente cliente = db.Cliente.Find(id);
-            db.Cliente.Remove(cliente);
-            db.SaveChanges();
+            Cliente cliente = _Cliente.Detalhar(id);
+            _Cliente.Excluir(cliente);
             return RedirectToAction("Index");
         }
 
