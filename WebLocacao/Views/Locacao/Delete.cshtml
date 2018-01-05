@@ -1,0 +1,50 @@
+﻿@model WebLocacao.Dominio.Entities.Locacao
+
+<h3>Excluir esta Locação</h3>
+<div>
+    <h4>Locacao</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Clientes.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Clientes.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Filmes.Filme)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Filmes.Filme)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dataLocacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dataLocacao)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DataDevolucao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DataDevolucao)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Excluir" class="btn btn-default" /> |
+            @Html.ActionLink("Voltar", "Index")
+        </div>
+    }
+</div>

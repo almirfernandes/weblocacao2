@@ -1,0 +1,154 @@
+﻿@model PagedList.IPagedList<WebLocacao.Dominio.Entities.Locacao>
+
+
+
+@{
+    ViewBag.Title = "Lista de Locações";
+}
+
+@if (TempData["$$"] != null)
+{
+    <div class="alerta">TempData["$AlertMessage$"]</div>
+}
+
+
+<h2>Lista de Locações</h2>
+
+<p>
+    @Html.ActionLink("Alugar", "Create")
+</p>
+
+@using (Html.BeginForm("Index", "Locacao", FormMethod.Post))
+{   
+    <div class="col-md-4">
+
+        @Html.TextBox("Busca", ViewBag.CurrentFilter as string, null, new { @class = "col-md-9 col-sm-12 text-uppercase form-control", @placeholder = "Cliente ou Filme" })
+
+
+    </div>
+
+
+    <div class="col-md-1">
+        <button class="btn btn-primary glyphicon glyphicon-search btn-sm col-sm-12 col-xs-12 col-md-12" title="Buscar" type="submit" id="Buscar"></button>
+    </div>
+}
+<br>
+<br>
+
+<table class="table">
+    <tr>
+        <th>
+            Cliente
+        </th>
+        <th>
+            Filme
+        </th>
+        <th>
+           Data Locação
+        </th>
+        <th>
+            Data Devolução
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Clientes.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Filmes.Filme)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.dataLocacao)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DataDevolucao)
+        </td>
+        @if ((item.DataDevolucao) == null)
+        {
+
+            <td class="col-md-2 text-center">
+
+                <a href="@Url.Action("Edit", "Locacao", new { id = item.ID })" class="btn btn-primary btn-xs" title="Devolver">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+
+
+                <a href="@Url.Action("Details", "Locacao", new { id = item.ID })" class="btn btn-primary btn-xs" title="Visualizar">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </a>
+
+
+                <a href="@Url.Action("Delete", "Locacao", new { id = item.ID })" class="btn btn-primary btn-xs" title="Excluir">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+
+            </td>
+        }
+        else
+        {
+            <td class="col-md-2 text-center">
+
+                <a href="@Url.Action("Details", "Locacao", new { id = item.ID })" class="btn btn-primary btn-xs" title="Visualizar">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </a>
+
+
+                <a href="@Url.Action("Delete", "Locacao", new { id = item.ID })" class="btn btn-primary btn-xs" title="Excluir">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </a>
+
+            </td>
+
+        }
+    </tr>
+}
+
+</table>
+
+<div>
+    Página @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+    of @Model.PageCount
+
+    @if (Model.HasPreviousPage)
+    {
+        @Html.ActionLink("<<", "Index", new { pagina = 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+        @Html.Raw(" ");
+        @Html.ActionLink("< Anterior", "Index", new { pagina = Model.PageNumber - 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+    }
+    else
+    {
+        @:<<
+        @Html.Raw(" ");
+        @:< Anterior
+    }
+
+    @if (Model.HasNextPage)
+    {
+        @Html.ActionLink("Próxima >", "Index", new { pagina = Model.PageNumber + 1, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+        @Html.Raw(" ");
+        @Html.ActionLink(">>", "Index", new { pagina = Model.PageCount, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter })
+    }
+    else
+    {
+        @:Próxima >
+        @Html.Raw(" ")
+        @:>>
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/css/toastr.css"
+              rel="stylesheet" />
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.1/js/toastr.js"
+                type="text/javascript"></script>
+
+        <script src="~/Scripts/WebLocacao/WebLocacao.js"></script>
+
+    }
